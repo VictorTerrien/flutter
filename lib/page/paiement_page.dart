@@ -1,5 +1,7 @@
+import 'package:epsi_shop/bo/cart.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class PaiementPage extends StatelessWidget {
   PaiementPage({super.key});
@@ -10,43 +12,57 @@ class PaiementPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Finalisation de la commande"),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(10.0),
-          child: Column(
-            children: [
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: CardRecap(),
-              ),
-              const Align(
-                alignment: Alignment.centerLeft,
-                  child: Text("Adresse de livraison", style: TextStyle(
-                    fontSize: 16.0,
-                      fontWeight: FontWeight.bold),
-                  )
-              ),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: CardAdresse(),
-              ),
-              const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text("Méthode de paiement", style: TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.bold),
-                  )
-              ),
-              MethodePaiement(),
-            ],
-          )
-        ),
+      body: Consumer<Cart>(
+        builder: (BuildContext context, Cart cart, Widget? child) {
+          return Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CardRecap(
+                      prixSousTotal: cart.getTotalPrice(),
+                      prixTVA: cart.getTVA(),
+                      prixTotal: cart.getTotal(),
+                    ),
+                  ),
+                  const Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text("Adresse de livraison", style: TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold),
+                      )
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: CardAdresse(),
+                  ),
+                  const Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text("Méthode de paiement", style: TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold),
+                      )
+                  ),
+                  MethodePaiement(),
+                ],
+              )
+          );
+        }
+      ),
     );
   }
 }
 
 class CardRecap extends StatelessWidget {
+  final String prixSousTotal;
+  final String prixTVA;
+  final String prixTotal;
+
   const CardRecap({
-    super.key,
+    required this.prixSousTotal,
+    required this.prixTVA,
+    required this.prixTotal,
   });
 
   @override
@@ -57,11 +73,11 @@ class CardRecap extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.0),
         side: BorderSide(color: Theme.of(context).colorScheme.outline),
       ),
-      child: const Padding(
+      child: Padding(
         padding: EdgeInsets.all(8.0),
         child: Column(
           children: [
-            Padding(
+            const Padding(
               padding: EdgeInsets.only(bottom: 16.0),
               child: Align(
                 alignment: Alignment.centerLeft,
@@ -77,11 +93,11 @@ class CardRecap extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text("Sous-Total"),
-                  Text("129.36€")
+                  Text(prixSousTotal),
                 ],
               ),
             ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.only(bottom: 8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -97,7 +113,7 @@ class CardRecap extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text("TVA"),
-                  Text("23.89€")
+                  Text(prixTVA),
                 ],
               ),
             ),
@@ -105,7 +121,7 @@ class CardRecap extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text("TOTAL", style: TextStyle(fontWeight: FontWeight.bold),),
-                Text("153.25€", style: TextStyle(fontWeight: FontWeight.bold),)
+                Text(prixTotal, style: TextStyle(fontWeight: FontWeight.bold),)
               ],
             ),
           ],

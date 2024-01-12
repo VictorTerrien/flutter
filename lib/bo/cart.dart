@@ -10,6 +10,12 @@ class Cart with ChangeNotifier {
   String getTotalPrice() =>
       "${listArticles.fold(0, (prev, art) => prev + art.prix)/100}€";
 
+  String getTVA() =>
+      "${(listArticles.fold(0, (prev, art) => prev + art.prix)/100) * 0.2 }";
+
+  String getTotal() =>
+      "${(listArticles.fold(0, (prev, art) => prev + art.prix)/100) * 1.2 }";
+
   void add(Article article) {
     _listArticles.add(article);
     notifyListeners();
