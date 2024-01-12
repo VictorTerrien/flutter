@@ -180,6 +180,7 @@ class _MethodePaiement extends State<MethodePaiement> {
             paiementMethode = 1;
           }); }
               , icon: Badge(
+              backgroundColor: paiementMethode==1?Theme.of(context).colorScheme.primary:Colors.white,
                 label: paiementMethode==1?FaIcon(FontAwesomeIcons.check, size: 11.0, color: Colors.white,):null,
                 child: Card(
                   elevation: 0,
@@ -200,6 +201,7 @@ class _MethodePaiement extends State<MethodePaiement> {
           }); }
               , icon: Badge(
               label: paiementMethode==2?FaIcon(FontAwesomeIcons.check, size: 11.0, color: Colors.white,):null,
+              backgroundColor: paiementMethode==2?Theme.of(context).colorScheme.primary:Colors.white,
               child: Card(
                 elevation: 0,
                 shape: RoundedRectangleBorder(
@@ -218,6 +220,7 @@ class _MethodePaiement extends State<MethodePaiement> {
             paiementMethode = 3;
           }); }
               , icon: Badge(
+              backgroundColor: paiementMethode==3?Theme.of(context).colorScheme.primary:Colors.white,
               label: paiementMethode==3?FaIcon(FontAwesomeIcons.check, size: 11.0, color: Colors.white,):null,
               child: Card(
                 elevation: 0,
@@ -237,6 +240,7 @@ class _MethodePaiement extends State<MethodePaiement> {
             paiementMethode = 4;
           }); }
               , icon: Badge(
+              backgroundColor: paiementMethode==4?Theme.of(context).colorScheme.primary:Colors.white,
               label: paiementMethode==4?FaIcon(FontAwesomeIcons.check, size: 11.0, color: Colors.white,):null,
               child: Card(
                 elevation: 0,
@@ -259,14 +263,17 @@ class _MethodePaiement extends State<MethodePaiement> {
          const Text("En poursuivant, vous acceptez les Conditions d'utilisation du fournisseur de paiement CoffeDis",
           style: TextStyle(fontSize: 11.0),),
         ElevatedButton(
-          onPressed: isPressed?() { }:null,
+          onPressed: isPressed?() {
+            final snackBar = SnackBar(content: Text("Votre commande est validée"), backgroundColor: Theme.of(context).colorScheme.primary,);
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          }:null,
           style: ElevatedButton.styleFrom(
               backgroundColor: Theme.of(context).colorScheme.primary,
           ),
           child: const Text("Confirmer l'achat", style: TextStyle(
               color: Colors.white
           ),),
-        )
+        ),
       ]
     );
 
